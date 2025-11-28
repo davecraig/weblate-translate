@@ -226,7 +226,7 @@ def translateText(target_language: str,
 
     if True:
         openAiClient = OpenAI(
-            api_key = "",
+            api_key=""
         )
         resp = openAiClient.chat.completions.create(
             model=openAiModel,
@@ -273,6 +273,26 @@ def load_or_fetch_units(
     units = get_units(client, project, component, language, query)
     write_json(filename, units)
     return units
+
+
+def uploadTranslations(filename, language_code):
+    client = client_from_config("weblate.ini")
+    base_url = client.url
+    project = 'soundscape-android'
+    component = 'android-app'
+    path = (
+        f"translations/{project}/{component}/{language_code}/file/"
+    )
+    files = {'file': open(filename, 'rb')}
+    params = {
+        'conflicts': 'ignore', 
+        'email': 'davecraig@unbalancedaudio.com',
+        'author': 'Dave Craig',
+        'method': 'translate',
+        'file': 'file'
+    }
+    result = client.post(path, files=files, params=params)
+    print(result)
 
 
 def main():
@@ -349,46 +369,52 @@ def main():
         ]
 
         openAiModel="gpt-5-mini"
-
-        # We're going to process a number of strings at a time. There's a small cost hit for
-        # this, as the glossary and system instructions cost us on each call.
         target_language = language_string
-        strings_at_a_time = 25
-        start = 0
-        end = strings_at_a_time
-        accumulated_results = {}
-        timeout_count = 0
-        while start < end:
-            try:
-                results = translateText(target_language, translated_units, payload[start:end], openAiModel)
-                if results != None:
-                    # Transform results into simple JSON format that can be accepted by Weblate
-                    for resource in results["results"]:
-                        accumulated_results[resource["key"]] = resource["target"]
-
-                    start = start + len(results["results"])
-                else:
-                    start = start + strings_at_a_time
-
-                end = start + strings_at_a_time
-                if end > len(payload):
-                    end = len(payload)
-            except Exception as inst:
-                print(type(inst))    # the exception type
-                print(inst.args)     # arguments stored in .args
-                print(inst)
-
-                timeout_count = timeout_count + 1
-                time.sleep(10)
-                # Try a smaller number of strings
-                strings_at_a_time = strings_at_a_time = 10
-                end = start + strings_at_a_time
-            
-            if timeout_count > 5:
-                break
-
         out_path = Path(f"{target_language}-{openAiModel}-translations.json")
-        out_path.write_text(json.dumps(accumulated_results, ensure_ascii=False, indent=4))
+
+        if out_path.exists():
+            # We've already generated the translations, so this time we're going to try and upload them.
+            uploadTranslations(out_path, language_code)
+        else:
+            # We're going to process a number of strings at a time. There's a small cost hit for
+            # this, as the glossary and system instructions cost us on each call.
+            strings_at_a_time = 25
+            start = 0
+            end = strings_at_a_time
+            accumulated_results = {}
+            timeout_count = 0
+            while start < end:
+                try:
+                    results = translateText(target_language, translated_units, payload[start:end], openAiModel)
+                    if results != None:
+                        # Transform results into simple JSON format that can be accepted by Weblate
+                        for resource in results["results"]:
+                            accumulated_results[resource["key"]] = resource["target"]
+
+                        start = start + len(results["results"])
+                    else:
+                        start = start + strings_at_a_time
+
+                    end = start + strings_at_a_time
+                    if end > len(payload):
+                        end = len(payload)
+                except Exception as inst:
+                    print(type(inst))    # the exception type
+                    print(inst.args)     # arguments stored in .args
+                    print(inst)
+
+                    timeout_count = timeout_count + 1
+                    time.sleep(10)
+                    # Try a smaller number of strings
+                    strings_at_a_time = strings_at_a_time = 10
+                    end = start + strings_at_a_time
+
+                if timeout_count > 5:
+                    break
+
+            out_path = Path(f"{target_language}-{openAiModel}-translations.json")
+            out_path.write_text(json.dumps(accumulated_results, ensure_ascii=False, indent=4))
+            uploadTranslations(out_path, language_code)
 
 
 if __name__ == "__main__":

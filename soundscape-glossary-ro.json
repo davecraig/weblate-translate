@@ -1,0 +1,92 @@
+[
+  {
+    "term": "Ahead of Me",
+    "definition": "A button on the home screen that tells you about several points of interest roughly ahead of the direction you are facing—useful for exploring an unfamiliar area",
+    "notes": "Convey the idea of ‘looking ahead’ and not just ‘forward.’",
+    "ro": "Înaintea mea"
+  },
+  {
+    "term": "Around Me",
+    "definition": "A home‑screen button that announces one point of interest in each of the four quadrants around you (ahead, right, behind and left) to help orient you",
+    "notes": "Emphasise ‘surroundings’ and orientation; avoid implying only one direction.",
+    "ro": "În jurul meu"
+  },
+  {
+    "term": "My Location",
+    "definition": "Button that quickly announces where you are, including your facing direction, nearby roads/intersections and points of interest",
+    "notes": "Make sure the possessive ‘my’ is clear; this is about the user’s current position.",
+    "ro": "Locația mea"
+  },
+  {
+    "term": "Nearby Markers",
+    "definition": "Button that reports up to four saved markers closest to you to help you orient yourself using places you already know",
+    "notes": "Stress ‘saved places nearby.’",
+    "ro": "Marcaje din apropiere"
+  },
+  {
+    "term": "Audio Beacon",
+    "definition": "When set on a location, the app plays a continuous audible sound from that direction; the home screen shows the distance and address. It helps you track a destination but does not give turn‑by‑turn directions",
+    "notes": "‘Beacon’ may not have a direct equivalent; describe it as a ‘sound beacon’ or ‘audible guide.’",
+    "ro": "Baliză audio"
+  },
+  {
+    "term": "Intersection callouts",
+    "definition": "A type of automatic callout describing the layout of intersections as you approach and confirming the road you are on when leaving",
+    "notes": "Translate as ‘intersection announcement’ or similar.",
+    "ro": "Anunțuri pentru intersecții"
+  },
+  {
+    "term": "Sleep",
+    "definition": "In this mode, the app silences all callouts until you ‘wake’ the app again, providing temporary quiet without closing the app",
+    "notes": "Different from muting a beacon; akin to ‘pause’ mode.",
+    "ro": "Repaus"
+  },
+  {
+    "term": "Marker",
+    "definition": "A saved location. Markers can be personal places like home, office or grocery store or custom points not on maps (e.g., building entrances, pedestrian crossings). Soundscape can call them out automatically, and you can set an audio beacon on any marker",
+    "notes": "Use a term like ‘saved point,’ ‘pin,’ or ‘landmark’; emphasise that markers may not exist on standard maps.",
+    "ro": "Marcaj"
+  },
+  {
+    "term": "Annotation",
+    "definition": "An optional descriptive note attached to a marker that is spoken when the marker is called out",
+    "notes": "This is additional information, not the marker’s name.",
+    "ro": "Adnotare"
+  },
+  {
+    "term": "Routes",
+    "definition": "A sequence of waypoints that form a path. Soundscape announces when you reach each waypoint, and the audio beacon automatically switches to the next",
+    "notes": "This is not turn‑by‑turn navigation; emphasise sequential guidance.",
+    "ro": "Rute"
+  },
+  {
+    "term": "Waypoint",
+    "definition": "An individual point along a route; you add waypoints when creating a route and receive notifications when arriving at each one",
+    "notes": "Translate as ‘route point’ or ‘stop.’",
+    "ro": "Punct de traseu"
+  },
+  {
+    "term": "Places Nearby",
+    "definition": "A Home‑screen button listing nearby places you can explore or use when setting a beacon or saving a marker",
+    "notes": "Should convey ‘nearby places’ or ‘nearby points of interest.’",
+    "ro": "Locuri din apropiere"
+  },
+  {
+    "term": "Search bar",
+    "definition": "Input field on the home screen for searching by place name or address",
+    "notes": "Use the standard term for a search field.",
+    "ro": "Bară de căutare"
+  },
+  {
+    "term": "Voices",
+    "definition": "A setting that lets you choose among the text‑to‑speech voices installed on your device. Change the voice via Settings → Voices",
+    "notes": "Translate as ‘voice options’ or ‘voice selection.’",
+    "ro": "Voci"
+  },
+  {
+    "term": "Offline mode",
+    "definition": "When the internet connection is unavailable, Soundscape enters offline mode. The app still works but some functions are limited; callouts and audio beacons work for places stored in your callout history",
+    "notes": "Translate as ‘offline mode’ or ‘work offline.’",
+    "ro": "Mod offline"
+  }
+]

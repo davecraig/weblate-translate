@@ -416,42 +416,12 @@ def main():
         for i, it in enumerate(units)
     ]
 
-#    glossary = [
-#        { "term": "Ahead of Me", "French": "Devant moi" },
-#        { "term": "Around Me",   "French": "Autour de moi" },
-#        { "term": "My Location", "French": "Mon emplacement" },
-#        { "term": "Nearby Markers", "French": "Marqueurs à proximité" },
-#        { "term": "Audio Beacon", "French": "Balise sonore" },
-#        { "term": "Intersection callouts", "French": "Annonces d’intersections" },
-#        { "term": "Sleep button / Sleep mode", "French": "Bouton veille / Mode veille" },
-#        { "term": "Marker", "French": "Marqueur" },
-#        { "term": "Annotation", "French": "Annotation" },
-#        { "term": "Routes", "French": "Itinéraires" },
-#        { "term": "Waypoint", "French": "Points de repère" },
-#        { "term": "Places Nearby button", "French": "Bouton lieux à proximité" },
-#        { "term": "Search bar", "French": "Barre de recherche" },
-#        { "term": "Highway", "French": "Autoroute" },
-#        { "term": "Voices", "French": "Voix" },
-#        { "term": "Offline mode", "French": "Mode hors ligne" },
-#        { "term": "Settings", "French": "Réglages" },
-#    ]
-
+    glossary_path = Path("soundscape-glossary-hi.json")
+    with open(glossary_path, encoding="utf-8") as f:
+        glossary_raw = json.load(f)
     glossary = [
-        { "term": "Ahead of Me", "Polish": "Przede mną" },
-        { "term": "Around Me", "Polish": "Wokół mnie" },
-        { "term": "My Location", "Polish": "Moja lokalizacja" },
-        { "term": "Nearby Markers", "Polish": "Bliskie znaczniki mapy (pinezki)" },
-        { "term": "Audio Beacon", "Polish": "Dźwięk naprowadzający" },
-        { "term": "Intersection callouts", "Polish": "Powiadomienia o skrzyżowaniach" },
-        { "term": "Sleep", "Polish": "Tryb uśpienia" },
-        { "term": "Marker", "Polish": "Znacznik (pinezka)" },
-        { "term": "Annotation", "Polish": "Adnotacja" },
-        { "term": "Routes", "Polish": "Trasy" },
-        { "term": "Waypoint", "Polish": "Punkt trasy" },
-        { "term": "Places Nearby", "Polish": "Miejsca w pobliżu" },
-        { "term": "Search bar", "Polish": "Pasek wyszukiwania" },
-        { "term": "Voices", "Polish": "Wybór głosu TTS" },
-        { "term": "Offline mode", "Polish": "Tryb offline" }
+        {"term": entry["term"], "Hindi": entry["hi"]}
+        for entry in glossary_raw
     ]
 
     #openAiModel="gpt-4.1-nano" # Cheapest ~$0.04
@@ -460,7 +430,7 @@ def main():
 
     # We're going to process 50 strings at a time. There's a small cost hit for
     # this, as the glossary and system instructions cost us on each call.
-    target_language = "Polish"
+    target_language = "Hindi"
     strings_at_a_time = 50
     start = 0
     end = strings_at_a_time

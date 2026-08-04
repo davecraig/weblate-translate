@@ -103,13 +103,17 @@ def translateText(target_language: str,
                   payload: list[str],
                   openAiModel: str):
     system_msg = (
-        "You are an expert in Open Street Map and you are creating short text descriptions"
+        "You are an expert in Open Street Map and you are creating short text descriptions "
         f"in ${target_language} for various tags and tag values that Open Street Map uses.\n\n"
-        "Task: For each string in the list, which we call $input, create a very short string which we call $output."
-        "$output is to be used in an app to describe the mapped feature to the users as text. It should be the"
-        "absolutely shortest description possible as it is read out using text to speech. The words in $output"
-        "should be capitalized. Return ONLY valid JSON with this exact shape:\n"
-        "{ 'results': [\"<!-- Open Street Map term $input. -->\n"
+        "Task: For each string in the list, which we call $input, create a very short string which we call $output. "
+        "$output is to be used in an app to describe the mapped feature to the users as text. It should be the "
+        "absolutely shortest description possible as it is read out using text to speech. "
+        "However, if a key describes something like a shop then it should include the word shop for clarity.For example "
+        "musical_instrument as $input should turn into musical instrument shop for $output. "
+        "The words in $output should be capitalized. We should also generate a $description which is a short description "
+        "that explains the context for $input and what type of object is refers to.\n"
+        " Return ONLY valid JSON with this exact shape:\n"
+        "{ 'results': [\"<!-- Open Street Map term $input. $description-->\n"
         "<string name=\"osm_$input\" tools:ignore=\"MissingTranslation\">$output</string>\n,...]}\n"
         "Do not add explanations or extra keys.\n\n"
     )

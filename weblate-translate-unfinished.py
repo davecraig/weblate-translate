@@ -177,6 +177,7 @@ def translateText(target_language: str,
         f"{target_language} translations for audio-centric apps for visually impaired users.\n\n"
         f"Task: For each item translate `source` text into {target_language}, using the further context provided in `context`."
         "The translations will all be used within the Soundscape app which the user provides a description of."
+        "Some of the strings describe Open Street Map keys and values and these translations requires no knowledge of Soundscape."
         "It's important that terms are translated consistently and so the user will provide a "
         "list of already translated that can be used."
         "You must preserve any markdown and line breaks."
@@ -207,7 +208,7 @@ def translateText(target_language: str,
 
     conversation = [
         {"role": "system", "content": system_msg},
-        {"role": "user", "content": soundscape_msg},        
+        {"role": "user", "content": soundscape_msg},
         {"role": "user", "content": previously_translated_strings_msg},
         {"role": "user", "content": user_msg},
     ]
@@ -279,13 +280,13 @@ def uploadTranslations(filename, language_code):
     client = client_from_config("weblate.ini")
     base_url = client.url
     project = 'soundscape-android'
-    component = 'android-app'
+    component = 'androidkmp'
     path = (
         f"translations/{project}/{component}/{language_code}/file/"
     )
     files = {'file': open(filename, 'rb')}
     params = {
-        'conflicts': 'ignore', 
+        'conflicts': 'replace-translated',
         'email': 'davecraig@unbalancedaudio.com',
         'author': 'Dave Craig',
         'method': 'translate',
@@ -298,24 +299,27 @@ def uploadTranslations(filename, language_code):
 def main():
     p = argparse.ArgumentParser(description="Report Weblate translation states via wlc.")
     p.add_argument("--project", default="soundscape-android", help="Project slug (as seen in URL).")
-    p.add_argument("--component", default="android-app", help="Limit to a single component slug.")
+    p.add_argument("--component", default="androidkmp", help="Limit to a single component slug.")
     p.add_argument("--langs", nargs="*", help="Optional list of language codes to include (e.g. cs de fr).")
     p.add_argument("--json", action="store_true", help="Output JSON instead of a table.")
     args = p.parse_args()
 
     # If we wanted to iterate over all the translations then we could use:
-    #   https://hosted.weblate.org/api/components/soundscape-android/android-app/translations/
+    #   https://hosted.weblate.org/api/components/soundscape-android/androidkmp/translations/
     # 
     # That returns a list of all the available translations (paste it into Chrome to see the results)
     LANGUAGES = {
         "arz":  "Egyptian Arabic",
+        "zh_Hans": "Simplified Chinese",
         "da":   "Danish",
+        "en_GB":   "UK English",
         "nl":   "Dutch",
         "fi":   "Finnish",
         "fr":   "French",
         "fr_CA":"Canadian French",
         "de":   "German",
         "el":   "Greek",
+        "hi":   "Hindi",
         "is":   "Icelandic",
         "it":   "Italian",
         "ja":   "Japanese",
@@ -323,10 +327,12 @@ def main():
         "fa":   "Persian",
         "pl":   "Polish",
         "pt":   "Portuguese",
-        "pt_BR":"Brazillian Portuguese",
+        "pt_BR":"Brazilian Portuguese",
+        "ro": "Romanian",
         "ru":   "Russian",
         "es":   "Spanish",
         "sv":   "Swedish",
+        "tr":   "Turkish",
         "uk":   "Ukrainian"
     }
 
@@ -339,7 +345,7 @@ def main():
         untranslated_units = load_or_fetch_units(
             filename = f"{language_code}-untranslated.json",
             project = "soundscape-android",
-            component = "android-app",
+            component = "androidkmp",
             language = language_code,
             query = "is:untranslated",
             config_path="weblate.ini"
@@ -347,7 +353,7 @@ def main():
         translated_units = load_or_fetch_units(
             filename = f"{language_code}-translated.json",
             project = "soundscape-android",
-            component = "android-app",
+            component = "androidkmp",
             language = language_code,
             query = "is:translated",
             config_path="weblate.ini"
